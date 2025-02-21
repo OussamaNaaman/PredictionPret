@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Loan Amount Prediction</title>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css"
+          integrity="sha512-9usAa10IRO0HhonpyAIVpjrylPvoDwiPUiKdWk5t3PyolY1cOd4DSE0Ga+ri4AuTroPR5aQvXU9xC6qOPnzFeg=="
+          crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link rel="stylesheet" th:href="@{/static/style.css}">
+
+</head>
+<body>
+<div class="container">
+    <div style="display: flex; justify-content: space-between; align-items: center;">
+        <h1>Loan Amount Prediction</h1>
+    </div>
+    <form id="loanForm" method="post" th:action="@{/}">
+        <label for="ApplicantIncome">Applicant Income:</label>
+        <input type="number" name="ApplicantIncome" id="ApplicantIncome" required>
+
+        <label for="CoapplicantIncome">Coapplicant Income:</label>
+        <input type="number" name="CoapplicantIncome" id="CoapplicantIncome" required>
+
+        <label for="Loan_Amount_Term">Loan Amount Term:</label>
+        <input type="number" name="Loan_Amount_Term" id="Loan_Amount_Term" required>
+
+
+        <label for="Dependents_0">Dependents 0:</label>
+        <input type="number" name="Dependents_0"  id ="Dependents_0" required>
+
+        <label for="Dependents_1">Dependents 1:</label>
+        <input type="number" name="Dependents_1" id ="Dependents_1" required>
+
+        <label for="Dependents_2">Dependents 2:</label>
+        <input type="number" name="Dependents_2"  id = "Dependents_2" required>
+
+        <label for="Dependents_3+">Dependents 3+:</label>
+        <input type="number" name="Dependents_3+"  id= "Dependents_3+" required>
+
+
+        <label for="Gender_Male">Gender Male:</label>
+        <input type="number" name="Gender_Male" id = "Gender_Male" required>
+
+        <label for="Gender_Female">Gender Female:</label>
+        <input type="number" name="Gender_Female" id="Gender_Female" required>
+
+
+        <label for="Married_Yes">Married Yes:</label>
+        <input type="number" name="Married_Yes" id="Married_Yes" required>
+
+        <label for="Married_No">Married No:</label>
+        <input type="number" name="Married_No" id = "Married_No" required>
+
+        <label for="Education_Graduate">Education Graduate:</label>
+        <input type="number" name="Education_Graduate" id = "Education_Graduate" required>
+
+        <label for="Education_Not Graduate">Education Not Graduate:</label>
+        <input type="number" name="Education_Not Graduate" id ="Education_Not Graduate" required>
+
+        <label for="Self_Employed_Yes">Self Employed Yes:</label>
+        <input type="number" name="Self_Employed_Yes" id = "Self_Employed_Yes" required>
+
+        <label for="Self_Employed_No">Self Employed No:</label>
+        <input type="number" name="Self_Employed_No"  id ="Self_Employed_No" required>
+
+
+        <label for="Property_Area_Rural">Property Area Rural:</label>
+        <input type="number" name="Property_Area_Rural" id= "Property_Area_Rural" required>
+
+
+        <label for="Property_Area_Semiurban">Property Area Semiurban:</label>
+        <input type="number" name="Property_Area_Semiurban" id= "Property_Area_Semiurban" required>
+
+
+        <label for="Property_Area_Urban">Property Area Urban:</label>
+        <input type="number" name="Property_Area_Urban" id ="Property_Area_Urban" required>
+
+        <label for="Credit_History_1">Credit History 1:</label>
+        <input type="number" name="Credit_History_1" id = "Credit_History_1" required>
+
+        <label for="Credit_History_0">Credit History 0:</label>
+        <input type="number" name="Credit_History_0" id ="Credit_History_0" required>
+        <div class="btn-container">
+            <input type="submit" value="Predict">
+            <button type="button" class="clear-btn">Clear</button>
+        </div>
+    </form>
+    <div class="links">
+        <a th:href="@{/history}">History</a>
+        <a th:href="@{/logout}">Logout</a>
+    </div>
+    <div class="parameter-adjustment">
+        <h2>Simulate changes on your score:</h2>
+        <div>
+            <p>Credit History (Simulate a credit score based on past credits):</p>
+            <div class="slider-container">
+                <input type="range" id="creditSlider"  min="0" max="10"  value ="0" class="custom-slider"/>
+                <p>0=No credits; 10 = Ideal credit history</p>
+            </div>
+        </div>
+        <div>
+            <p>Number of Dependents:</p>
+            <div class="slider-container">
+                <input type="range"  min="0" max="5" value = "0"  class="custom-slider" id="dependentsSlider"/>
+                <p>0 to 5+ dependents</p>
+            </div>
+        </div>
+        <div class="explanation">
+            <p> <strong> Credit history:</strong> has a huge importance when predicting loans. The more time the bank or agency considers that there is trust with you, the better.</p>
+            <p><strong>Number of Dependents:</strong> indicates to lenders how much income the client have (for expenses purposes).</p>
+        </div>
+    </div>
+
+    <div class="loading"> <i class="fa fa-spinner fa-spin"></i>Loading ...</div>
+    <div id="predictionResult" class="prediction" th:if="${prediction}" th:text="'Predicted Loan Amount: ' + ${prediction}"></div>
+    <div id="errorResult" class="error" th:if="${error}" th:text="${error}"></div>
+</div>
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        const form = document.getElementById('loanForm');
+        const loadingDiv = document.querySelector('.loading');
+        const predictionDiv = document.getElementById('predictionResult');
+        const errorDiv = document.getElementById('errorResult')
+
+
+        form.addEventListener('submit', function (event) {
+            loadingDiv.style.display = "block";
+            predictionDiv.style.display = "none";
+            errorDiv.style.display = "none";
+        });
+        const creditSlider = document.getElementById('creditSlider')
+        const dependentsSlider = document.getElementById('dependentsSlider')
+
+        creditSlider.addEventListener("input",()=>{
+            let creditInput = creditSlider.value
+            document.getElementById('Credit_History_0').value  = 0
+            document.getElementById('Credit_History_1').value  = 0
+            if (creditInput >= 5)
+            {
+                document.getElementById('Credit_History_1').value  = 1;
+            }else if (creditInput < 5 && creditInput > 0)
+            {
+                document.getElementById('Credit_History_0').value  = 1
+            }
+        })
+        dependentsSlider.addEventListener("input", ()=>{
+
+            let dependentsInput  =  dependentsSlider.value;
+            document.getElementById('Dependents_0').value  = 0
+            document.getElementById('Dependents_1').value  = 0
+            document.getElementById('Dependents_2').value  = 0
+            document.getElementById('Dependents_3+').value  = 0
+
+            if(dependentsInput === '0')  document.getElementById('Dependents_0').value  = 1
+            else if(dependentsInput === '1')document.getElementById('Dependents_1').value  = 1
+            else  if(dependentsInput === '2') document.getElementById('Dependents_2').value = 1
+            else if (dependentsInput >= 3) document.getElementById('Dependents_3+').value = 1
+        });
+        const clearBtn = document.querySelector('.clear-btn');
+        clearBtn.addEventListener('click', function () {
+            form.reset();
+            predictionDiv.style.display= "none"
+            errorDiv.style.display = "none"
+            loadingDiv.style.display = "none";
+
+        });
+    });
+</script>
+</body>
+</html>
