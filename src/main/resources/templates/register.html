@@ -5,22 +5,32 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Register</title>
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css"
+          integrity="sha512-9usAa10IRO0HhonpyAIVpjrylPvoDwiPUiKdWk5t3PyolY1cOd4DSE0Ga+ri4AuTroPR5aQvXU9xC6qOPnzFeg=="
+          crossorigin="anonymous" referrerpolicy="no-referrer" />
     <link rel="stylesheet" th:href="@{/static/style.css}">
 </head>
 <body>
-<div class="container">
-    <h1>Register</h1>
-    <div class="error" th:if="${error}" th:text="${error}"></div> <!-- Error message display -->
-    <form method="post" th:action="@{/register}">
-        <label for="username">Username:</label>
-        <input type="text" id="username" name="username" required><br><br>
-        <label for="password">Password:</label>
-        <input type="password" id="password" name="password" required><br><br>
-        <div class="btn-container">
-            <button type="submit">Register</button>
-            <a th:href="@{/login}">Login</a> <!-- Link to login page -->
-        </div>
-    </form>
+<div class="container auth-container">
+    <div class="form-wrapper auth-wrapper">
+        <h1>Register</h1>
+        <p class="form-description auth-description">Create a new account.</p>
+        <div class="error" th:if="${error}" th:text="${error}"></div>
+        <form method="post" th:action="@{/register}" class="auth-form register-form">
+            <div class="form-group">
+                <label for="username"><i class="fas fa-user"></i> Username:</label>
+                <input type="text" id="username" name="username" placeholder="Enter your username" required>
+            </div>
+            <div class="form-group">
+                <label for="password"><i class="fas fa-lock"></i> Password:</label>
+                <input type="password" id="password" name="password" placeholder="Enter your password" required>
+            </div>
+            <div class="btn-container auth-btn-container">
+                <button type="submit" class="auth-button register-button">Register</button>
+                <a th:href="@{/login}" class="auth-link login-link">Already have an account? Login</a>
+            </div>
+        </form>
+    </div>
 </div>
 </body>
 </html>

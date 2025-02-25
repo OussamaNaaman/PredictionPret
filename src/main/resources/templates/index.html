@@ -3,170 +3,154 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Loan Amount Prediction</title>
+    <title>Loan Amount Prediction - Empowering Financial Decisions</title>
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css"
           integrity="sha512-9usAa10IRO0HhonpyAIVpjrylPvoDwiPUiKdWk5t3PyolY1cOd4DSE0Ga+ri4AuTroPR5aQvXU9xC6qOPnzFeg=="
           crossorigin="anonymous" referrerpolicy="no-referrer" />
     <link rel="stylesheet" th:href="@{/static/style.css}">
-
 </head>
 <body>
 <div class="container">
-    <div style="display: flex; justify-content: space-between; align-items: center;">
-        <h1>Loan Amount Prediction</h1>
-    </div>
-    <form id="loanForm" method="post" th:action="@{/}">
-        <label for="ApplicantIncome">Applicant Income:</label>
-        <input type="number" name="ApplicantIncome" id="ApplicantIncome" required>
-
-        <label for="CoapplicantIncome">Coapplicant Income:</label>
-        <input type="number" name="CoapplicantIncome" id="CoapplicantIncome" required>
-
-        <label for="Loan_Amount_Term">Loan Amount Term:</label>
-        <input type="number" name="Loan_Amount_Term" id="Loan_Amount_Term" required>
-
-
-        <label for="Dependents_0">Dependents 0:</label>
-        <input type="number" name="Dependents_0"  id ="Dependents_0" required>
-
-        <label for="Dependents_1">Dependents 1:</label>
-        <input type="number" name="Dependents_1" id ="Dependents_1" required>
-
-        <label for="Dependents_2">Dependents 2:</label>
-        <input type="number" name="Dependents_2"  id = "Dependents_2" required>
-
-        <label for="Dependents_3+">Dependents 3+:</label>
-        <input type="number" name="Dependents_3+"  id= "Dependents_3+" required>
-
-
-        <label for="Gender_Male">Gender Male:</label>
-        <input type="number" name="Gender_Male" id = "Gender_Male" required>
-
-        <label for="Gender_Female">Gender Female:</label>
-        <input type="number" name="Gender_Female" id="Gender_Female" required>
-
-
-        <label for="Married_Yes">Married Yes:</label>
-        <input type="number" name="Married_Yes" id="Married_Yes" required>
-
-        <label for="Married_No">Married No:</label>
-        <input type="number" name="Married_No" id = "Married_No" required>
-
-        <label for="Education_Graduate">Education Graduate:</label>
-        <input type="number" name="Education_Graduate" id = "Education_Graduate" required>
-
-        <label for="Education_Not Graduate">Education Not Graduate:</label>
-        <input type="number" name="Education_Not Graduate" id ="Education_Not Graduate" required>
-
-        <label for="Self_Employed_Yes">Self Employed Yes:</label>
-        <input type="number" name="Self_Employed_Yes" id = "Self_Employed_Yes" required>
-
-        <label for="Self_Employed_No">Self Employed No:</label>
-        <input type="number" name="Self_Employed_No"  id ="Self_Employed_No" required>
-
-
-        <label for="Property_Area_Rural">Property Area Rural:</label>
-        <input type="number" name="Property_Area_Rural" id= "Property_Area_Rural" required>
-
-
-        <label for="Property_Area_Semiurban">Property Area Semiurban:</label>
-        <input type="number" name="Property_Area_Semiurban" id= "Property_Area_Semiurban" required>
-
-
-        <label for="Property_Area_Urban">Property Area Urban:</label>
-        <input type="number" name="Property_Area_Urban" id ="Property_Area_Urban" required>
-
-        <label for="Credit_History_1">Credit History 1:</label>
-        <input type="number" name="Credit_History_1" id = "Credit_History_1" required>
-
-        <label for="Credit_History_0">Credit History 0:</label>
-        <input type="number" name="Credit_History_0" id ="Credit_History_0" required>
-        <div class="btn-container">
-            <input type="submit" value="Predict">
-            <button type="button" class="clear-btn">Clear</button>
+    <header class="app-header">
+        <div class="logo-container">
+            <i class="fas fa-coins logo-icon"></i>
+            <h1 class="app-title">Loan Amount Prediction</h1>
         </div>
-    </form>
-    <div class="links">
-        <a th:href="@{/history}">History</a>
-        <a th:href="@{/logout}">Logout</a>
-    </div>
-    <div class="parameter-adjustment">
-        <h2>Simulate changes on your score:</h2>
-        <div>
-            <p>Credit History (Simulate a credit score based on past credits):</p>
-            <div class="slider-container">
-                <input type="range" id="creditSlider"  min="0" max="10"  value ="0" class="custom-slider"/>
-                <p>0=No credits; 10 = Ideal credit history</p>
+        <p class="app-tagline">Unlock your financial potential with our smart prediction tool.</p>
+    </header>
+    <section class="prediction-form-section">
+        <form id="loanForm" method="post" th:action="@{/}" class="loan-prediction-form">
+            <fieldset class="form-grid applicant-details">
+                <legend>Applicant & Co-applicant Details</legend>
+                <div class="form-group">
+                    <label for="ApplicantIncome"><i class="fas fa-user"></i> Applicant Income:</label>
+                    <input type="number" name="ApplicantIncome" id="ApplicantIncome" placeholder="e.g., 75000" required>
+                </div>
+                <div class="form-group">
+                    <label for="CoapplicantIncome"><i class="fas fa-user-friends"></i> Co-applicant Income:</label>
+                    <input type="number" name="CoapplicantIncome" id="CoapplicantIncome" placeholder="e.g., 45000" required>
+                </div>
+            </fieldset>
+
+            <fieldset class="form-grid loan-specifics">
+                <legend>Loan Specifics</legend>
+                <div class="form-group">
+                    <label for="Loan_Amount_Term"><i class="fas fa-calendar-alt"></i> Loan Term (Months):</label>
+                    <input type="number" name="Loan_Amount_Term" id="Loan_Amount_Term" placeholder="e.g., 360" required>
+                </div>
+            </fieldset>
+
+            <fieldset class="form-grid demographic-factors">
+                <legend>Demographic Factors</legend>
+                <div class="form-group">
+                    <label for="Dependents_0"><i class="fas fa-users"></i> Dependents:</label>
+                    <select id="Dependents_0" name="Dependents_0" required>
+                        <option value="0">0</option>
+                        <option value="1">1</option>
+                        <option value="2">2</option>
+                        <option value="3+">3+</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="Gender_Male"><i class="fas fa-venus-mars"></i> Gender:</label>
+                    <select id="Gender_Male" name="Gender_Male" required>
+                        <option value="Male">Male</option>
+                        <option value="Female">Female</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="Married_Yes"><i class="fas fa-heart"></i> Marital Status:</label>
+                    <select id="Married_Yes" name="Married_Yes" required>
+                        <option value="Yes">Yes</option>
+                        <option value="No">No</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="Education_Graduate"><i class="fas fa-graduation-cap"></i> Education:</label>
+                    <select id="Education_Graduate" name="Education_Graduate" required>
+                        <option value="Graduate">Graduate</option>
+                        <option value="Not Graduate">Not Graduate</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="Self_Employed_Yes"><i class="fas fa-briefcase"></i> Self Employed:</label>
+                    <select id="Self_Employed_Yes" name="Self_Employed_Yes" required>
+                        <option value="Yes">Yes</option>
+                        <option value="No">No</option>
+                    </select>
+                </div>
+            </fieldset>
+
+            <fieldset class="form-grid property-credit-details">
+                <legend>Property & Credit Details</legend>
+                <div class="form-group">
+                    <label for="Property_Area_Rural"><i class="fas fa-home"></i> Property Area:</label>
+                    <select id="Property_Area_Rural" name="Property_Area_Rural" required>
+                        <option value="Rural">Rural</option>
+                        <option value="Semiurban">Semi-urban</option>
+                        <option value="Urban">Urban</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="Credit_History_1"><i class="far fa-credit-card"></i> Credit History:</label>
+                    <select id="Credit_History_1" name="Credit_History_1" required>
+                        <option value="Good">Good</option>
+                        <option value="Bad">Bad</option>
+                    </select>
+                </div>
+            </fieldset>
+
+            <div class="form-action-buttons btn-container">
+                <button type="submit" class="predict-button"><i class="fas fa-magic"></i> Predict Loan Amount</button>
+                <button type="button" class="clear-button"><i class="fas fa-trash"></i> Clear Form</button>
             </div>
-        </div>
-        <div>
-            <p>Number of Dependents:</p>
-            <div class="slider-container">
-                <input type="range"  min="0" max="5" value = "0"  class="custom-slider" id="dependentsSlider"/>
-                <p>0 to 5+ dependents</p>
+        </form>
+    </section>
+
+    <aside class="sidebar">
+        <section class="parameter-adjustment">
+            <h2>Refine Prediction</h2>
+            <p class="parameter-section-description">Fine-tune sliders to adjust credit history and dependents for deeper insights.</p>
+            <div>
+                <p><i class="fas fa-sliders-h"></i> Simulated Credit Score (0-10):</p>
+                <div class="slider-container">
+                    <input type="range" id="creditSlider"  min="0" max="10"  value ="0" class="custom-slider"/>
+                    <span class="slider-value" id="creditValue">0</span>
+                </div>
+                <p class="slider-description">0 = No credit history, 10 = Excellent credit history</p>
             </div>
-        </div>
-        <div class="explanation">
-            <p> <strong> Credit history:</strong> has a huge importance when predicting loans. The more time the bank or agency considers that there is trust with you, the better.</p>
-            <p><strong>Number of Dependents:</strong> indicates to lenders how much income the client have (for expenses purposes).</p>
-        </div>
+            <div>
+                <p><i class="fas fa-users"></i> Number of Dependents (0-5+):</p>
+                <div class="slider-container">
+                    <input type="range"  min="0" max="5" value = "0"  class="custom-slider" id="dependentsSlider"/>
+                    <span class="slider-value" id="dependentsValue">0</span>
+                </div>
+                <p class="slider-description">0 to 5 or more dependents</p>
+            </div>
+            <div class="explanation">
+                <h3 class="explanation-title"><i class="fas fa-lightbulb"></i> Parameter Insights</h3>
+                <p> <i class="far fa-credit-card"></i> <strong> Credit history:</strong>  is crucial for loan approvals. A better history improves approval chances and may increase loan amount.</p>
+                <p><i class="fas fa-users"></i> <strong>Number of Dependents:</strong> shows financial responsibilities, impacting repayment capacity.</p>
+            </div>
+        </section>
+    </aside>
+
+    <div class="prediction-results">
+        <div class="loading"> <i class="fa fa-spinner fa-spin"></i> Predicting Loan Amount...</div>
+        <div id="predictionResult" class="prediction" th:if="${prediction}" th:text="'Predicted Loan Amount: $' + (${prediction} * 1000)"></div>
+        <div id="errorResult" class="error" th:if="${error}" th:text="${error}"></div>
     </div>
 
-    <div class="loading"> <i class="fa fa-spinner fa-spin"></i>Loading ...</div>
-    <div id="predictionResult" class="prediction" th:if="${prediction}" th:text="'Predicted Loan Amount: ' + ${prediction}"></div>
-    <div id="errorResult" class="error" th:if="${error}" th:text="${error}"></div>
+    <nav class="app-navigation links">
+        <a th:href="@{/history}"><i class="fas fa-history"></i> Prediction History</a>
+        <a th:href="@{/logout}"><i class="fas fa-sign-out-alt"></i> Logout</a>
+    </nav>
+
+    <footer class="app-footer">
+        <p>© 2025 Loan Prediction App.</p>
+    </footer>
+    <script th:src="@{/static/script.js}"></script>
 </div>
-<script>
-    document.addEventListener('DOMContentLoaded', function () {
-        const form = document.getElementById('loanForm');
-        const loadingDiv = document.querySelector('.loading');
-        const predictionDiv = document.getElementById('predictionResult');
-        const errorDiv = document.getElementById('errorResult')
-
-
-        form.addEventListener('submit', function (event) {
-            loadingDiv.style.display = "block";
-            predictionDiv.style.display = "none";
-            errorDiv.style.display = "none";
-        });
-        const creditSlider = document.getElementById('creditSlider')
-        const dependentsSlider = document.getElementById('dependentsSlider')
-
-        creditSlider.addEventListener("input",()=>{
-            let creditInput = creditSlider.value
-            document.getElementById('Credit_History_0').value  = 0
-            document.getElementById('Credit_History_1').value  = 0
-            if (creditInput >= 5)
-            {
-                document.getElementById('Credit_History_1').value  = 1;
-            }else if (creditInput < 5 && creditInput > 0)
-            {
-                document.getElementById('Credit_History_0').value  = 1
-            }
-        })
-        dependentsSlider.addEventListener("input", ()=>{
-
-            let dependentsInput  =  dependentsSlider.value;
-            document.getElementById('Dependents_0').value  = 0
-            document.getElementById('Dependents_1').value  = 0
-            document.getElementById('Dependents_2').value  = 0
-            document.getElementById('Dependents_3+').value  = 0
-
-            if(dependentsInput === '0')  document.getElementById('Dependents_0').value  = 1
-            else if(dependentsInput === '1')document.getElementById('Dependents_1').value  = 1
-            else  if(dependentsInput === '2') document.getElementById('Dependents_2').value = 1
-            else if (dependentsInput >= 3) document.getElementById('Dependents_3+').value = 1
-        });
-        const clearBtn = document.querySelector('.clear-btn');
-        clearBtn.addEventListener('click', function () {
-            form.reset();
-            predictionDiv.style.display= "none"
-            errorDiv.style.display = "none"
-            loadingDiv.style.display = "none";
-
-        });
-    });
-</script>
 </body>
 </html>

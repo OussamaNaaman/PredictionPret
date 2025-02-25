@@ -9,9 +9,9 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.io.Resource;
 import org.springframework.stereotype.Component;
+import org.springframework.util.StringUtils;
+
 import javax.annotation.PostConstruct;
-
-
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.Arrays;
@@ -28,12 +28,10 @@ public class ModelLoader {
     @Value("classpath:loan_amount_model.bin")
     private Resource modelResource;
 
-
     @PostConstruct
     public void init() throws IOException {
         this.model = loadModel();
         log.info("Model loaded successfully (Model Loader component.)");
-
     }
 
     public Booster getModel() {
@@ -45,26 +43,25 @@ public class ModelLoader {
         try (InputStream modelInputStream = modelResource.getInputStream()) {
             loadedModel = XGBoost.loadModel(modelInputStream);
             if (loadedModel == null) {
-                throw new IOException("XGBoost failed to load the model from the provided input stream, please check the file format, if it is an xgboost model or try loading with python library first if it can be loaded correctly. ");
+                throw new IOException("XGBoost failed to load the model.");
             }
         } catch (Exception ex) {
-
-            log.error("Error loading model: An XGBoost Java specific Model loader data properties related exception using a file as resource, can not  load implementation for current configuration. Verify model/or path at method parameter, if path or a library type / data model value format parameter are corrupted :  ", ex);
-            throw new IOException("An XGBoost Java specific Model loader data properties related exception using a file as resource, can not  load implementation for current configuration. Verify model/or path at method parameter, if path or a library type / data model value format parameter are corrupted :  ", ex);
+            log.error("Error loading model: ", ex);
+            throw new IOException("Error loading XGBoost model", ex);
         }
         return loadedModel;
-
     }
+
     public Double predictLoanAmount(DMatrix input) throws XGBoostError {
-        if (model== null)
+        if (model == null) {
             return null;
+        }
         float[][] predictedValues = model.predict(input);
         if (predictedValues.length > 0 && predictedValues[0].length > 0) {
             return (double) predictedValues[0][0];
         }
         return null;
     }
-
 
     public DMatrix prepareDataMatrix(Map<String, Float> inputData) throws XGBoostError {
         int numFeatures = 21;
@@ -75,49 +72,94 @@ public class ModelLoader {
                 "Gender_Male", "Gender_Female", "Married_Yes", "Married_No",
                 "Education_Graduate", "Education_Not Graduate", "Self_Employed_Yes", "Self_Employed_No",
                 "Property_Area_Rural", "Property_Area_Semiurban", "Property_Area_Urban", "Credit_History_1", "Credit_History_0",
-                "TotalIncome"
+                "TotalIncome" // Note: TotalIncome is expected in the feature order too now
         );
 
-        for(int i = 0; i < featureOrder.size() - 1; i++){
-            featureArray[i] = inputData.getOrDefault(featureOrder.get(i),0.0f);
+        for (int i = 0; i < featureOrder.size() - 1; i++) {
+            featureArray[i] = inputData.getOrDefault(featureOrder.get(i), 0.0f);
         }
         float totalIncome = inputData.get("ApplicantIncome") + inputData.get("CoapplicantIncome");
-        featureArray[featureOrder.size() - 1] = totalIncome;
+        featureArray[featureOrder.size() - 1] = totalIncome; // Assign TotalIncome value at the last index
+
         int numRows = 1;
         int numCols = numFeatures;
-        DMatrix dataMatrix = new DMatrix(featureArray,numRows, numCols);
-
-        return dataMatrix;
+        return new DMatrix(featureArray, numRows, numCols);
     }
 
-    public Map<String, Float> prepareInputData(Map<String, String> formData){
+
+    public Map<String, Float> prepareInputData(Map<String, String> formData) {
         Map<String, Float> inputData = new HashMap<>();
-        inputData.put("ApplicantIncome", Float.parseFloat(formData.get("ApplicantIncome")));
-        inputData.put("CoapplicantIncome", Float.parseFloat(formData.get("CoapplicantIncome")));
-        inputData.put("Loan_Amount_Term", Float.parseFloat(formData.get("Loan_Amount_Term")));
-        inputData.put("Dependents_0", Float.parseFloat(formData.get("Dependents_0")));
-        inputData.put("Dependents_1", Float.parseFloat(formData.get("Dependents_1")));
-        inputData.put("Dependents_2", Float.parseFloat(formData.get("Dependents_2")));
-        inputData.put("Dependents_3+", Float.parseFloat(formData.get("Dependents_3+")));
-        inputData.put("Gender_Male", Float.parseFloat(formData.get("Gender_Male")));
-        inputData.put("Gender_Female", Float.parseFloat(formData.get("Gender_Female")));
-        inputData.put("Married_Yes", Float.parseFloat(formData.get("Married_Yes")));
-        inputData.put("Married_No", Float.parseFloat(formData.get("Married_No")));
-        inputData.put("Education_Graduate", Float.parseFloat(formData.get("Education_Graduate")));
-        inputData.put("Education_Not Graduate", Float.parseFloat(formData.get("Education_Not Graduate")));
-        inputData.put("Self_Employed_Yes", Float.parseFloat(formData.get("Self_Employed_Yes")));
-        inputData.put("Self_Employed_No", Float.parseFloat(formData.get("Self_Employed_No")));
-        inputData.put("Property_Area_Rural", Float.parseFloat(formData.get("Property_Area_Rural")));
-        inputData.put("Property_Area_Semiurban", Float.parseFloat(formData.get("Property_Area_Semiurban")));
-        inputData.put("Property_Area_Urban", Float.parseFloat(formData.get("Property_Area_Urban")));
-        inputData.put("Credit_History_1", Float.parseFloat(formData.get("Credit_History_1")));
-        inputData.put("Credit_History_0", Float.parseFloat(formData.get("Credit_History_0")));
+        InputParser parser = new InputParser();
+
+        // 1. Income and Loan Term (Still Parse as Floats)
+        inputData.put("ApplicantIncome", parser.parseFloatValue(formData.get("ApplicantIncome"), "ApplicantIncome"));
+        inputData.put("CoapplicantIncome", parser.parseFloatValue(formData.get("CoapplicantIncome"), "CoapplicantIncome"));
+        inputData.put("Loan_Amount_Term", parser.parseFloatValue(formData.get("Loan_Amount_Term"), "Loan_Amount_Term"));
+
+        // 2. Dependents - Handle String dropdown values and convert to binary
+        String dependentsValue = formData.get("Dependents_0"); // Get string value from dropdown
+        inputData.put("Dependents_0", "0".equals(dependentsValue) ? 1.0f : 0.0f);
+        inputData.put("Dependents_1", "1".equals(dependentsValue) ? 1.0f : 0.0f);
+        inputData.put("Dependents_2", "2".equals(dependentsValue) ? 1.0f : 0.0f);
+        inputData.put("Dependents_3+", "3+".equals(dependentsValue) ? 1.0f : 0.0f);
+
+
+        // 3. Gender - Handle String dropdown, convert to binary
+        String genderValue = formData.get("Gender_Male");
+        inputData.put("Gender_Male", "Male".equals(genderValue) ? 1.0f : 0.0f);
+        inputData.put("Gender_Female", "Female".equals(genderValue) ? 1.0f : 0.0f);
+
+        // 4. Married - Handle String dropdown, convert to binary
+        String marriedValue = formData.get("Married_Yes");
+        inputData.put("Married_Yes", "Yes".equals(marriedValue) ? 1.0f : 0.0f);
+        inputData.put("Married_No", "No".equals(marriedValue) ? 1.0f : 0.0f);
+
+        // 5. Education - Handle String dropdown, convert to binary
+        String educationValue = formData.get("Education_Graduate");
+        inputData.put("Education_Graduate", "Graduate".equals(educationValue) ? 1.0f : 0.0f);
+        inputData.put("Education_Not Graduate", "Not Graduate".equals(educationValue) ? 1.0f : 0.0f);
+
+        // 6. Self Employed - Handle String dropdown, convert to binary
+        String selfEmployedValue = formData.get("Self_Employed_Yes");
+        inputData.put("Self_Emoyed_Yes", "Yes".equals(selfEmployedValue) ? 1.0f : 0.0f); // Typo in original name fixed to Self_Employed_Yes
+        inputData.put("Self_Employed_No", "No".equals(selfEmployedValue) ? 1.0f : 0.0f);
+
+        // 7. Property Area - Handle String dropdown, convert to binary
+        String propertyAreaValue = formData.get("Property_Area_Rural");
+        inputData.put("Property_Area_Rural", "Rural".equals(propertyAreaValue) ? 1.0f : 0.0f);
+        inputData.put("Property_Area_Semiurban", "Semiurban".equals(propertyAreaValue) ? 1.0f : 0.0f);
+        inputData.put("Property_Area_Urban", "Urban".equals(propertyAreaValue) ? 1.0f : 0.0f);
+
+        // 8. Credit History - Handle String dropdown, convert to binary
+        String creditHistoryValue = formData.get("Credit_History_1");
+        inputData.put("Credit_History_1", "Good".equals(creditHistoryValue) ? 1.0f : 0.0f); // Good credit
+        inputData.put("Credit_History_0", "Bad".equals(creditHistoryValue) ? 1.0f : 0.0f);  // Bad credit
+
+
         return inputData;
+    }
+
+
+    // **Inner helper class for parsing with error handling and default value**
+    private static class InputParser {
+        public Float parseFloatValue(String valueStr, String fieldName) {
+            float floatValue = 0.0f; // Default value
+            if (StringUtils.hasText(valueStr)) { // Check for null and non-empty
+                try {
+                    floatValue = Float.parseFloat(valueStr.trim()); // Parse if valid
+                } catch (NumberFormatException e) {
+                    log.warn("Invalid input for field '{}': '{}'. Using default value 0.0", fieldName, valueStr); //Log warning
+                    // You could choose to handle NumberFormatException differently, e.g., throw an exception, return null, etc.
+                }
+            } else {
+                log.warn("Field '{}' is missing or empty. Using default value 0.0", fieldName); //Log warning
+            }
+            return floatValue;
+        }
     }
 
 
     public static void main(String[] args) {
         // a test case main java  entry method only to check/verify implementation using Java
     }
-
 }

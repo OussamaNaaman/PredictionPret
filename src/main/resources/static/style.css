@@ -1,466 +1,825 @@
-/* style.css - Enhanced Styles for Loan Predictor App */
+/* style.css - Enhanced Styles for Loan Predictor - VERSION STYLISH MAX - ICON INTEGRATION & REFINED UI */
+
+/* ------------------------------------------------------- */
+/*  Color Palette and Variables                           */
+/* ------------------------------------------------------- */
+:root {
+    --primary-color: #26a69a;        /* Teal 500 */
+    --primary-dark-color: #00796b;   /* Teal 700 */
+    --secondary-color: #ff7043;      /* Deep Orange 400 */
+    --secondary-dark-color: #f4511e; /* Deep Orange 600 */
+    --accent-color: #4dd0e1;         /* Cyan 300 */
+    --light-gray: #f5f5f5;
+    --medium-gray: #e0e0e0;
+    --dark-gray: #757575;
+    --text-color: #333;
+    --white-color: #fff;
+    --error-color: #f44336;         /* Red 500 */
+    --success-color: #4caf50;       /* Green 500 */
+    --container-bg: rgba(255, 255, 255, 0.95); /* Slightly transparent white */
+    --form-bg: rgba(255, 255, 255, 0.9);      /* More transparent form background */
+    --shadow-light: 0 5px 15px rgba(0, 0, 0, 0.15);
+    --border-radius-base: 18px;
+    --border-radius-small: 14px;
+    --font-family-base: 'Roboto', sans-serif;
+}
 
 /* ------------------------------------------------------- */
 /*  General Body and Container Styles                    */
 /* ------------------------------------------------------- */
 
 body {
-    font-family: 'Roboto', sans-serif;
-    background-color: #e3f2fd; /* Lighter, softer background */
-    color: #424242; /* Medium dark gray text */
+    font-family: var(--font-family-base);
+    background-color: #f0f4c3;
+    color: var(--text-color);
     margin: 0;
     padding: 0;
     display: flex;
     justify-content: center;
     align-items: center;
     min-height: 100vh;
-    background: linear-gradient(135deg, #eceff1, #e0f7fa); /* Gentle gradient */
+    background: linear-gradient(135deg, #fffde7, #fff9c4);
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
 }
 
 .container {
-    background-color: rgba(255, 255, 255, 0.95); /* Even more translucent card */
-    border-radius: 15px; /* More rounded cards */
-    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15); /* Deeper, softer shadow */
-    padding: 50px; /* Increased padding inside container */
-    width: 95%; /* Slightly wider for larger screens */
-    max-width: 1300px; /* Increased max width */
-    border: 1px solid #eee; /* Very subtle border */
+    background-color: var(--container-bg);
+    border-radius: var(--border-radius-base);
+    box-shadow: 0 20px 50px rgba(0, 0, 0, 0.25); /* Increased shadow for depth */
+    padding: 70px;
+    width: 95%;
+    max-width: 1400px;
+    border: 1px solid var(--medium-gray);
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
 }
 
+/* Specific container for auth pages (login/register) */
+.auth-container {
+    max-width: 600px; /* Narrower for auth forms */
+    padding: 50px;
+}
+
+
+.form-wrapper {
+    padding: 40px;
+}
+
+/* Specific wrapper for auth forms */
+.auth-wrapper {
+    padding: 50px;
+    background-color: var(--form-bg);
+    border-radius: var(--border-radius-base);
+    box-shadow: var(--shadow-light);
+    border: 1px solid var(--medium-gray);
+}
+
+
 /* ------------------------------------------------------- */
-/*  Headings (H1, H2)                                      */
+/*  Header Styles                                        */
 /* ------------------------------------------------------- */
 
-h1 {
+.app-header {
     text-align: center;
-    margin-bottom: 45px; /* More space below title */
-    color: #1e88e5; /*  Slightly brighter primary blue */
-    font-weight: 800; /* Even bolder title */
+    margin-bottom: 50px; /* Increased margin */
+}
+
+.logo-container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 15px;
+}
+
+.logo-icon {
+    font-size: 2.5em;
+    color: var(--accent-color);
+    margin-right: 15px;
+}
+
+
+.app-title {
+    color: var(--primary-color);
+    font-weight: 900;
     position: relative;
     display: inline-block;
-    padding-bottom: 10px; /* More space for underlay */
+    padding-bottom: 15px;
     overflow: hidden;
-    font-size: 2.5em; /* Larger title */
+    font-size: 3.2em; /* Slightly larger title */
+    letter-spacing: -0.02em;
 }
 
-h1::before {
+.app-title::before {
     content: "";
     position: absolute;
-    width: 90%; /* Wider title border */
+    width: 70%; /* Wider line */
     bottom: 0;
-    height: 4px; /* Thicker title border */
+    height: 7px; /* Thicker line */
     left: 50%;
-    background-image: linear-gradient(to right, #4fc3f7, #00bcd4); /* More vibrant gradient */
+    background-image: linear-gradient(to right, var(--accent-color), var(--primary-color));
     transform: translateX(-50%);
-    border-radius: 6px;
+    border-radius: 8px;
+    opacity: 0.9; /* Slightly less opaque line */
 }
 
-h1::after {
+.app-title::after {
     content: '';
     position: absolute;
-    bottom: -12px; /* Further down dashed border */
+    bottom: -18px; /* Adjusted position */
     left: 50%;
     transform: translateX(-50%);
-    width: 95%; /* Even wider dashed border */
-    border-bottom: 3px dashed #cfd8dc; /* Subtle dashed line */
+    width: 75%; /* Wider dashes */
+    border-bottom: 4px dashed #b2dfdb;
+    opacity: 0.8; /* Slightly less opaque dashes */
 }
 
-
-h2 {
-    color: #0277bd; /* Slightly darker secondary blue */
-    font-weight: 700; /* Bolder subheading */
-    margin-bottom: 25px; /* More space after subheadings */
-    font-size: 1.8em; /* Larger subheadings */
+.app-tagline {
+    color: var(--dark-gray);
+    margin-top: 20px; /* Increased margin */
+    font-size: 1.25em; /* Slightly larger tagline */
+    font-style: italic;
+    line-height: 1.6;
 }
 
 /* ------------------------------------------------------- */
-/*  Forms and Form Elements                               */
+/*  Form Section - Loan Prediction Form                   */
 /* ------------------------------------------------------- */
 
-form {
+.prediction-form-section {
+    margin-bottom: 60px; /* Increased bottom margin */
+}
+
+.loan-prediction-form {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); /* Slightly wider min width for form cols */
-    gap: 15px 20px; /* Increased grid gaps */
-    align-items: start; /* Align items to start within grid cells */
+    grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); /* Adjusted minmax for fieldset width */
+    gap: 35px; /* Increased gap */
+    padding: 40px; /* Increased padding */
+    background-color: var(--form-bg);
+    border-radius: var(--border-radius-base);
+    box-shadow: var(--shadow-light);
+    border: 1px solid var(--medium-gray);
+}
+
+.form-grid {
+    padding: 30px; /* Increased padding inside fieldset */
+    border: 2px solid var(--medium-gray); /* Thicker border */
+    border-radius: var(--border-radius-base);
+    margin-bottom: 20px; /* Increased bottom margin */
+    transition: all 0.3s ease; /* Smooth transition for hover effects */
+}
+
+.form-grid:hover {
+    box-shadow: 0 8px 22px rgba(0, 0, 0, 0.18); /* More pronounced shadow on hover */
+    border-color: var(--primary-color); /* Highlight border on hover */
+    transform: translateY(-3px); /* Slight lift effect on hover */
+}
+
+
+.form-grid legend {
+    font-size: 1.4em; /* Larger legend font */
+    font-weight: 600;
+    color: var(--primary-color);
+    padding: 8px 20px; /* Adjusted legend padding */
+    margin-bottom: 25px; /* Increased legend margin */
+    display: block;
+    width: auto;
+    background-color: var(--white-color);
+    border-radius: var(--border-radius-small);
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); /* Subtle shadow for legend */
+    border: 1px solid var(--medium-gray); /* Add border to legend background */
+}
+
+
+.form-group {
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 25px; /* Increased form group margin */
 }
 
 label {
-    font-weight: 600;
-    margin-bottom: 10px; /* Increased label margin */
-    display: block;
-    color: #546e7a; /* Slate gray labels */
+    font-weight: 700;
+    margin-bottom: 12px; /* Increased label margin */
+    display: flex; /* Use flex to align icon and text */
+    align-items: center;
+    color: var(--dark-gray);
+    font-size: 1.1em; /* Slightly larger label font */
 }
 
+label i {
+    margin-right: 8px; /* Spacing between icon and label text */
+    color: var(--primary-color); /* Icon color */
+}
+
+
+select,
 input[type="number"],
 input[type="text"],
-input[type="password"] { /* Added text and password inputs for login/register forms */
-    padding: 14px 18px; /* Larger input padding */
-    border: 1.5px solid #b0bec5; /* Slightly thicker border */
-    border-radius: 10px; /* More rounded inputs */
-    width: calc(100% - 36px); /* Adjusted calc for new padding/border */
-    transition: border-color 0.3s ease, box-shadow 0.3s ease; /* Added box-shadow transition */
+input[type="password"] {
+    padding: 16px 22px; /* Increased input padding */
+    border: 2px solid var(--medium-gray);
+    border-radius: var(--border-radius-small);
+    width: calc(100% - 44px); /* Adjusted width to account for increased padding */
+    transition: border-color 0.3s ease, box-shadow 0.3s ease;
     box-sizing: border-box;
-    font-size: 1em; /* Consistent font size in inputs */
-    color: #424242; /* Input text color same as body */
-    background-color: #f8f9fa; /* Light input background */
+    font-size: 1.15em; /* Slightly larger input font */
+    color: var(--text-color);
+    background-color: var(--light-gray);
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
 }
 
+
+/* Custom arrow for select dropdown */
+select {
+    background-image: url("data:image/svg+xml;utf8,<svg fill='${color}' height='24' viewBox='0 0 24 24' width='24' xmlns='http://www.w3.org/2000/svg'><path d='M7 10l5 5 5-5z'/><path d='M0 0h24v24H0z' fill='none'/></svg>");
+    background-repeat: no-repeat;
+    background-position-x: calc(100% - 20px); /* Adjusted position for larger padding */
+    background-position-y: center;
+    background-size: 16px; /* Adjusted size of arrow */
+    color: var(--dark-gray); /* Default arrow color */
+}
+select:focus {
+    background-image: url("data:image/svg+xml;utf8,<svg fill='${color}' height='24' viewBox='0 0 24 24' width='24' xmlns='http://www.w3.org/2000/svg'><path d='M7 10l5 5 5-5z'/><path d='M0 0h24v24H0z' fill='none'/></svg>");
+    color: var(--primary-color); /* Arrow color when focused */
+}
+
+
+select::-ms-expand {
+    display: none; /* for IE */
+}
+
+
+input[type="number"]::placeholder,
+input[type="text"]::placeholder,
+input[type="password"]::placeholder {
+    color: var(--medium-gray);
+    font-style: italic;
+    font-size: 0.95em;
+}
+
+select:focus,
 input[type="number"]:focus,
 input[type="text"]:focus,
 input[type="password"]:focus {
-    border-color: #1e88e5; /* Focus border color matches primary blue */
+    border-color: var(--accent-color);
     outline: none;
-    box-shadow: 0 3px 8px rgba(30, 136, 229, 0.3); /* More pronounced focus shadow */
+    box-shadow: 0 5px 12px rgba(var(--primary-color-rgb), 0.5); /* Refined focus shadow */
+    background-color: var(--white-color); /* White background on focus */
 }
 
+
 /* ------------------------------------------------------- */
-/*  Buttons                                                */
+/*  Buttons and Actions                                  */
 /* ------------------------------------------------------- */
 
-.btn-container {
-    grid-column: 1 / -1;
+.btn-container, .form-action-buttons, .auth-btn-container {
     display: flex;
-    gap: 15px; /* Increased button gap */
+    gap: 25px; /* Increased gap between buttons */
     align-items: center;
-    justify-content: end;
-    margin-top: 20px; /* Added margin above buttons */
+    justify-content: center;
+    margin-top: 35px; /* Increased top margin for buttons */
 }
 
-/* Clear Button Styling */
-.clear-btn {
-    padding: 14px 25px; /* Larger clear button padding */
-    background-color: #e53935; /* Deeper red for clear */
-    color: white;
+
+.predict-button, .clear-button, .auth-button, input[type="submit"] {
+    padding: 16px 32px; /* Adjusted button padding */
+    background-color: var(--primary-color);
+    color: var(--white-color);
     border: none;
-    border-radius: 10px; /* Rounded clear buttons */
+    border-radius: var(--border-radius-small);
     cursor: pointer;
-    transition: background-color 0.2s ease-in-out, transform 0.2s ease; /* Added transform for subtle push effect */
-    box-shadow: 0 3px 5px rgba(0, 0, 0, 0.25); /* Slightly stronger shadow */
-    font-size: 1em;
+    transition: background-color 0.2s ease-in-out, transform 0.2s ease, box-shadow 0.2s ease;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.25); /* Slightly stronger button shadow */
+    font-size: 1.2em; /* Slightly larger button font */
+    font-weight: 700;
+    margin-bottom: 0;
+    letter-spacing: 0.03em;
+    text-transform: uppercase;
+    display: inline-flex; /* Use flex for icon alignment */
+    align-items: center;
+    justify-content: center;
+}
+
+.predict-button i, .clear-button i, .auth-button i {
+    margin-right: 10px; /* Icon spacing in buttons */
+}
+
+
+.predict-button:hover, .clear-button:hover, .auth-button:hover, input[type="submit"]:hover {
+    background-color: var(--primary-dark-color);
+    transform: scale(1.03); /* Slight scale up on hover */
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3); /* Stronger shadow on hover */
+}
+
+.predict-button:active, .clear-button:active, .auth-button:active, input[type="submit"]:active {
+    transform: scale(1); /* Reset scale on active */
+    box-shadow: 0 3px 6px rgba(0, 0, 0, 0.2); /* Reduced shadow on active */
+}
+
+
+.clear-button {
+    background-color: var(--secondary-color);
+}
+.clear-button:hover {
+    background-color: var(--secondary-dark-color);
+}
+
+
+/* Styles for Auth buttons (Login/Register pages) - Inherits and modifies */
+.auth-button {
+    padding: 14px 28px; /* Slightly smaller padding for auth buttons */
+    font-size: 1.1em;
+    box-shadow: 0 3px 6px rgba(0, 0, 0, 0.2);
+}
+.auth-button:hover {
+    box-shadow: 0 5px 10px rgba(0, 0, 0, 0.25);
+}
+
+
+/* Links in auth forms (Login/Register pages) */
+.auth-link {
+    color: var(--primary-color);
+    text-decoration: none;
     font-weight: 500;
-    margin-bottom: 0; /* Removed bottom margin to align baseline with predict button */
+    transition: color 0.2s ease;
 }
 
-.clear-btn:hover {
-    background-color: #c62828; /* Darker red on hover */
-    transform: scale(1.03); /* Subtle scale up on hover */
-}
-
-.clear-btn:active {
-    transform: scale(0.98); /* Subtle scale down on active/click */
-    box-shadow: 0 2px 3px rgba(0, 0, 0, 0.25); /* Reduced shadow when active */
+.auth-link:hover {
+    color: var(--accent-color);
+    text-decoration: underline;
 }
 
 
-/* Predict/Submit Button Styling */
-input[type="submit"],
-button[type="submit"] /* For register form submit button */ {
-    padding: 14px 25px; /* Larger submit button padding */
-    background-color: #43a047; /* Richer green for predict */
-    color: white;
-    border: none;
-    border-radius: 10px; /* Rounded predict button */
-    cursor: pointer;
-    transition: background-color 0.2s ease-in-out, transform 0.2s ease; /* Added transform for subtle push effect */
-    box-shadow: 0 3px 5px rgba(0, 0, 0, 0.25); /* Slightly stronger shadow */
-    font-size: 1em;
-    font-weight: 500;
+/* ------------------------------------------------------- */
+/*  Sidebar - Parameter Adjustment Section                */
+/* ------------------------------------------------------- */
+.sidebar {
+    background-color: var(--form-bg);
+    border-radius: var(--border-radius-base);
+    box-shadow: var(--shadow-light);
+    padding: 35px;
+    margin-top: 40px;
+    border: 1px solid var(--medium-gray);
+}
+
+.parameter-adjustment {
+    /* No major changes here, adjust as needed */
+}
+
+.parameter-adjustment h2 {
+    color: var(--primary-color);
+    font-size: 1.8em;
+    margin-bottom: 20px;
+    position: relative;
+    padding-bottom: 10px;
+    font-weight: 700;
+    display: inline-block; /* To allow inline pseudo-element */
+}
+
+
+.parameter-adjustment h2::before {
+    content: "";
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    height: 4px;
+    width: 40%;
+    background-color: var(--accent-color);
+    border-radius: 4px;
+}
+
+
+.parameter-section-description {
+    color: var(--dark-gray);
+    margin-bottom: 25px;
+    line-height: 1.6;
+}
+
+.parameter-adjustment > div {
+    margin-bottom: 30px;
+}
+
+.parameter-adjustment > div:last-child {
     margin-bottom: 0;
 }
 
-input[type="submit"]:hover,
-button[type="submit"]:hover {
-    background-color: #388e3c; /* Darker green on hover */
-    transform: scale(1.03); /* Subtle scale up on hover */
+.slider-container {
+    display: flex;
+    align-items: center;
+    margin-top: 10px;
 }
 
-input[type="submit"]:active,
-button[type="submit"]:active {
-    transform: scale(0.98); /* Subtle scale down on active/click */
-    box-shadow: 0 2px 3px rgba(0, 0, 0, 0.25); /* Reduced shadow when active */
+.slider-value {
+    margin-left: 15px;
+    font-weight: 500;
+    color: var(--primary-color);
+    font-size: 1.1em;
+    width: 30px;
+    text-align: right;
+}
+
+
+.custom-slider {
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+    height: 12px;
+    background: var(--medium-gray);
+    border-radius: 6px;
+    outline: none;
+    flex-grow: 1;
+    transition: background-color 0.3s ease;
+}
+
+.custom-slider:hover {
+    background: #d4d4d4;
+}
+
+.custom-slider::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    appearance: none;
+    width: 22px;
+    height: 22px;
+    background: var(--accent-color);
+    cursor: pointer;
+    border-radius: 50%;
+    border: 3px solid var(--white-color);
+    transition: background-color 0.3s ease, transform 0.2s ease, box-shadow 0.2s ease;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+}
+
+.custom-slider::-moz-range-thumb {
+    width: 22px;
+    height: 22px;
+    background: var(--accent-color);
+    cursor: pointer;
+    border-radius: 50%;
+    border: 3px solid var(--white-color);
+    transition: background-color 0.3s ease, transform 0.2s ease, box-shadow 0.2s ease;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+}
+
+
+.custom-slider::-webkit-slider-thumb:hover, .custom-slider::-moz-range-thumb:hover {
+    background-color: var(--primary-color);
+    transform: scale(1.1);
+    box-shadow: 0 3px 7px rgba(0, 0, 0, 0.3);
+}
+
+.custom-slider::-webkit-slider-thumb:active, .custom-slider::-moz-range-thumb:active {
+    transform: scale(0.95);
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.15);
+}
+
+
+.slider-description {
+    font-size: 0.95em;
+    color: var(--dark-gray);
+    margin-top: 8px;
+    font-style: italic;
+}
+
+.explanation {
+    padding: 25px;
+    background-color: var(--light-gray);
+    border-radius: var(--border-radius-small);
+}
+
+.explanation-title {
+    font-size: 1.3em;
+    color: var(--primary-color);
+    margin-bottom: 15px;
+    display: flex;
+    align-items: center;
+    font-weight: 600;
+}
+
+.explanation-title i {
+    margin-right: 10px;
+    color: var(--accent-color);
+}
+
+
+.explanation p {
+    line-height: 1.7;
+    color: var(--text-color);
+    margin-bottom: 10px;
+}
+.explanation p:last-child {
+    margin-bottom: 0;
+}
+
+.explanation strong {
+    font-weight: 700;
+    color: var(--primary-dark-color);
 }
 
 
 /* ------------------------------------------------------- */
-/*  Loading, Prediction, Error Messages                   */
+/*  Prediction and Error Results                         */
 /* ------------------------------------------------------- */
+.prediction-results {
+    margin-top: 50px;
+    text-align: center;
+}
 
 .loading {
-    text-align: center;
-    margin-top: 40px; /* More space for loading message */
-    font-size: 1.3em; /* Larger loading text */
-    color: #1e88e5;
     display: none;
+    color: var(--primary-color);
+    font-size: 1.2em;
+    margin-bottom: 20px;
 }
 
-.prediction, .error {
-    margin-top: 35px; /* Increased margin for message blocks */
-    padding: 25px; /* Increased padding in message blocks */
-    border-radius: 10px; /* More rounded message blocks */
-    text-align: center;
-    font-size: 1.2em;
-    font-weight: bold;
-    box-shadow: 0 5px 8px rgba(0, 0, 0, 0.15); /* Stronger shadow for messages */
-    display: none;
+.loading i {
+    margin-right: 8px;
 }
+
 
 .prediction {
-    background-color: #e8f5e9; /* Lighter green for prediction background */
-    color: #2e7d32; /* Darker green for prediction text */
-    border: 2px solid #81c784; /* Border for prediction block */
+    display: none;
+    background-color: var(--success-color);
+    color: var(--white-color);
+    padding: 15px 25px;
+    border-radius: var(--border-radius-small);
+    font-size: 1.3em;
+    font-weight: 600;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    margin-bottom: 20px;
 }
 
 .error {
-    background-color: #ffebee; /* Lighter red for error background */
-    color: #c62828; /* Darker red for error text */
-    border: 2px solid #ef5350; /* Border for error block */
+    display: none;
+    background-color: var(--error-color);
+    color: var(--white-color);
+    padding: 15px 25px;
+    border-radius: var(--border-radius-small);
+    font-size: 1.15em;
+    font-weight: 500;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    margin-bottom: 20px;
 }
 
 
 /* ------------------------------------------------------- */
-/*  Responsiveness (Mobile adjustments)                 */
+/*  Navigation and Footer                                  */
+/* ------------------------------------------------------- */
+.app-navigation.links {
+    text-align: center;
+    margin-top: 40px;
+    margin-bottom: 30px;
+}
+
+.app-navigation.links a {
+    color: var(--primary-color);
+    margin: 0 20px;
+    text-decoration: none;
+    font-weight: 600;
+    font-size: 1.1em;
+    transition: color 0.3s ease, transform 0.2s ease;
+    display: inline-flex;
+    align-items: center;
+    padding: 10px 15px;
+    border-radius: var(--border-radius-small);
+    border: 2px solid transparent; /* Initial transparent border */
+}
+
+.app-navigation.links a i {
+    margin-right: 8px;
+}
+
+
+.app-navigation.links a:hover {
+    color: var(--accent-color);
+    transform: translateY(-2px);
+    border-color: var(--medium-gray); /* Border appears on hover */
+    background-color: var(--light-gray); /* Light background on hover */
+}
+
+.app-footer {
+    text-align: center;
+    padding-top: 30px;
+    border-top: 1px solid var(--medium-gray);
+    color: var(--dark-gray);
+    font-size: 0.9em;
+}
+
+.app-footer i {
+    color: #e57373; /* Heart icon color */
+}
+
+
+/* ------------------------------------------------------- */
+/*  History Table Styles (history.html)                  */
+/* ------------------------------------------------------- */
+.history-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 25px;
+    border-radius: var(--border-radius-base);
+    overflow: hidden; /* To make border-radius work with thead/tbody */
+    box-shadow: var(--shadow-light);
+    border: 1px solid var(--medium-gray);
+}
+
+.history-table thead {
+    background-color: var(--primary-color);
+    color: var(--white-color);
+    font-weight: bold;
+}
+
+.history-table th, .history-table td {
+    padding: 15px 20px;
+    text-align: left;
+    border-bottom: 1px solid var(--medium-gray);
+}
+
+.history-table td {
+    background-color: var(--white-color); /* Or use --form-bg if slightly transparent background desired */
+}
+
+
+.history-table tbody tr:last-child td {
+    border-bottom: none; /* Remove border from last row */
+}
+
+.history-table tbody tr:nth-child(even) td {
+    background-color: var(--light-gray); /* Alternating row background for better readability */
+}
+
+/* "Go Back" and "Logout" buttons on history page */
+.history-page-actions {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+}
+.history-page-actions a {
+    text-decoration: none;
+    padding: 12px 20px;
+    color: var(--white-color);
+    border: none;
+    border-radius: var(--border-radius-small);
+    cursor: pointer;
+    transition: background-color 0.2s ease-in-out;
+    font-weight: 500;
+    display: inline-flex; /* Use flex for icon alignment */
+    align-items: center;
+    justify-content: center;
+}
+
+
+/* "Go Back" Button (Green) */
+.history-page-actions a[href="/"] {
+    background-color: var(--success-color);
+}
+.history-page-actions a[href="/"]:hover {
+    background-color: #43a047; /* Darker green on hover */
+}
+
+/* "Logout" Button (Red) */
+.history-page-actions a[href="/logout"] {
+    background-color: var(--error-color);
+}
+.history-page-actions a[href="/logout"]:hover {
+    background-color: #d32f2f; /* Darker red on hover */
+}
+
+
+
+/* ------------------------------------------------------- */
+/*  Responsiveness (Mobile adjustments)                   */
 /* ------------------------------------------------------- */
 
 @media (max-width: 768px) {
     .container {
-        width: 98%; /* Even wider on small screens */
-        padding: 30px; /* Reduced container padding */
-        border-radius: 12px;
+        padding: 40px; /* Reduced container padding */
+        border-radius: 15px;
     }
-    h1 {
-        font-size: 2em; /* Smaller title on mobile */
+    .auth-container {
+        padding: 30px;
+    }
+    .auth-wrapper, .form-wrapper {
+        padding: 30px;
+    }
+
+    .sidebar {
+        padding: 25px;
+        margin-top: 30px;
+        border-radius: 15px;
+    }
+
+    .loan-prediction-form {
+        grid-template-columns: 1fr; /* Single column on smaller screens */
+        padding: 25px;
+        border-radius: 15px;
+        gap: 25px;
+    }
+
+    .form-grid {
+        padding: 20px;
+        border-radius: 15px;
+        margin-bottom: 15px;
+    }
+
+    .app-header {
         margin-bottom: 35px;
     }
-    h2 {
-        font-size: 1.5em; /* Smaller subheading on mobile */
-        margin-bottom: 20px;
+    .app-title {
+        font-size: 2.6em;
+        padding-bottom: 12px;
     }
-    form {
-        grid-template-columns: 1fr;
-        gap: 20px;
+    .app-title::after {
+        bottom: -14px;
     }
-    .btn-container {
-        grid-column: 1;
-        flex-direction: column; /* Stack buttons on mobile */
-        gap: 15px;
+    .app-tagline {
+        font-size: 1.1em;
         margin-top: 15px;
     }
-    .clear-btn,
-    input[type="submit"],
-    button[type="submit"] {
-        width: 100%; /* Full width buttons on mobile */
-        padding: 14px 20px; /* Adjusted padding on mobile buttons */
-        margin-bottom: 0; /* Remove bottom margin, already stacked vertically */
+
+    .form-group {
+        margin-bottom: 20px;
+    }
+    label {
+        font-size: 1em;
+        margin-bottom: 8px;
     }
 
-    .links {
-        flex-direction: column; /* Stack links on mobile */
-        gap: 10px; /* Reduce link gap on mobile */
-        margin: 25px auto; /* Adjust margin on mobile links */
-        align-items: center; /* Center links on mobile */
-        justify-content: center;
+    select,
+    input[type="number"],
+    input[type="text"],
+    input[type="password"] {
+        padding: 14px 18px;
+        border-radius: 12px;
+        font-size: 1em;
+        width: calc(100% - 36px); /* Adjusted width for smaller padding */
     }
-    .links a {
-        display: block;
-        text-align: center;
-        padding: 12px 20px; /* Slightly smaller padding for mobile links */
+    select {
+        background-position-x: calc(100% - 15px); /* Adjust arrow position */
+        background-size: 14px; /* Adjust arrow size */
+    }
+
+
+    .btn-container, .form-action-buttons, .auth-btn-container {
+        flex-direction: column; /* Stack buttons on mobile */
+        gap: 15px;
+        margin-top: 25px;
+    }
+    .predict-button, .clear-button, .auth-button, input[type="submit"] {
+        padding: 14px 28px;
+        font-size: 1.1em;
+        border-radius: 12px;
+    }
+    .loading {
+        font-size: 1.1em;
+        margin-bottom: 15px;
     }
     .prediction, .error {
-        margin-top: 25px; /* Adjusted message margin on mobile */
-        padding: 20px; /* Adjusted message padding on mobile */
+        padding: 12px 20px;
+        border-radius: 12px;
+        font-size: 1em;
+        margin-bottom: 15px;
     }
-
     .parameter-adjustment {
-        grid-template-columns: 1fr; /* Single column for parameters on mobile */
-        gap: 15px; /* Adjusted parameter gap on mobile */
-        padding: 15px; /* Adjusted parameter section padding on mobile */
+        margin-bottom: 40px; /* More space below sidebar on mobile */
     }
-    .explanation{
-        padding: 15px; /* Adjust explanation padding on mobile */
-        margin: 5px 0; /*Adjust explanation margin*/
+    .parameter-adjustment h2 {
+        font-size: 1.6em;
+        margin-bottom: 15px;
+    }
+    .explanation {
+        padding: 20px;
+        border-radius: 12px;
+    }
+    .app-footer {
+        padding-top: 25px;
+        font-size: 0.85em;
+    }
+    .app-navigation.links {
+        margin-top: 30px;
+        margin-bottom: 25px;
+    }
+    .app-navigation.links a {
+        margin: 10px; /* Adjust link spacing on mobile */
+        padding: 10px 12px;
+        font-size: 1em;
+    }
+
+    .history-table th, .history-table td {
+        padding: 12px 15px; /* Reduced table cell padding on mobile */
+        font-size: 0.95em;
+    }
+    .history-page-actions {
+        flex-direction: column; /* Stack buttons on mobile */
+        gap: 10px;
+    }
+    .history-page-actions a {
+        width: 100%; /* Full width buttons on mobile */
+        text-align: center;
+        padding: 14px 20px;
+        font-size: 1.05em;
     }
 
 }
-
-
-/* ------------------------------------------------------- */
-/*  Custom Form Elements (Sliders, Checkboxes)           */
-/* ------------------------------------------------------- */
-
-/* Slider and Checkbox Styles (remain largely the same, subtle adjustments) */
-.slider-container {
-    display: flex;
-    align-items: center;
-    margin: 8px 0; /* Adjusted slider margin */
-    gap: 10px; /* Slightly larger gap for sliders */
-}
-
-.checkbox-container {
-    display: inline-flex;
-    align-items: center;
-    margin-bottom: 8px; /* Adjusted checkbox margin */
-}
-
-.checkbox-container label {
-    font-size: 0.95rem; /* Slightly larger checkbox label font */
-    margin-left: 8px; /* Adjusted checkbox label margin */
-    color: #546e7a; /* Match label color */
-}
-
-.custom-slider {
-    -webkit-appearance: none;
-    width: 180px; /* Slightly wider slider */
-    height: 10px; /* Slightly taller slider */
-    background: #ddd;
-    outline: none;
-    border-radius: 5px; /* More rounded slider */
-    border: 1.5px solid #aaa; /* Thicker slider border */
-    box-shadow: inset 0px 3px 5px rgba(0,0,0,0.1); /* More pronounced slider shadow */
-}
-
-.custom-slider::-webkit-slider-thumb,
-.custom-slider::-moz-range-thumb {
-    -webkit-appearance: none;
-    appearance: none;
-    width: 20px; /* Larger slider thumb */
-    height: 20px; /* Larger slider thumb height */
-    background: #1e88e5; /* Primary blue slider thumb */
-    cursor: pointer;
-    border-radius: 50%;
-    box-shadow: 0px 3px 5px rgba(0,0,0,0.3); /* More pronounced thumb shadow */
-    transition: transform 0.2s ease; /* Add transition to thumb */
-}
-
-.custom-slider::-webkit-slider-thumb:hover,
-.custom-slider::-moz-range-thumb:hover {
-    transform: scale(1.1); /* Thumb scale up on hover */
-}
-
-
-.custom-checkbox {
-    position: absolute;
-    opacity: 0;
-}
-
-.checkmark {
-    position: relative;
-    width: 22px; /* Larger checkbox size */
-    height: 22px; /* Larger checkbox size */
-    background-color: #fff;
-    border: 2.5px solid #bbb; /* Thicker checkbox border */
-    border-radius: 5px; /* More rounded checkboxes */
-    cursor: pointer;
-    box-shadow: 0px 2px 3px rgba(0,0,0,0.1); /* Subtle checkbox shadow */
-}
-
-.custom-checkbox:checked + .checkmark {
-    border-color: #43a047; /* Green for checked checkbox */
-    background-color: #43a047;
-    box-shadow: inset 0px 3px 5px rgba(0,0,0,0.2); /* Inset shadow when checked */
-}
-
-.checkmark:after {
-    content: "";
-    position: absolute;
-    display: none;
-    left: 8px; /* Adjusted tick mark position */
-    top: 4px;  /* Adjusted tick mark position */
-    width: 5px; /* Thicker tick mark */
-    height: 10px; /* Thicker tick mark height */
-    border: solid white;
-    border-width: 0 3px 3px 0; /* Thicker tick mark border */
-    transform: rotate(45deg);
-}
-
-
-.custom-checkbox:checked + .checkmark::after {
-    display: block;
-}
-
-/* ------------------------------------------------------- */
-/* Parameter Adjustment Section                             */
-/* ------------------------------------------------------- */
-.parameter-adjustment {
-    margin-top: 40px; /* More space above parameter adjustment section */
-    background-color: rgba(255, 255, 255, 0.7); /* Slightly more opaque section */
-    border-radius: 12px; /* More rounded parameter section */
-    padding: 30px; /* More padding inside parameter section */
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 25px; /* Increased parameter section gap */
-    box-shadow: 0 4px 8px rgba(0,0,0,0.2); /* Stronger shadow for parameter section */
-    border: 1px solid #eee; /* Subtle border */
-
-}
-
-.parameter-adjustment div {
-    display: flex;
-    flex-direction: column;
-    margin-bottom: 20px; /* More space below parameter groups */
-}
-
-.explanation {
-    border-top: 1.5px solid #ddd; /* Thicker explanation border */
-    padding: 15px; /* More padding in explanation section */
-    grid-column: 1 / -1;
-    text-align: justify;
-    background-color: rgba(255, 255, 255, 0.8); /* Slightly more opaque explanation background */
-    margin: 10px 0; /* Increased margin around explanation */
-    border-radius: 12px; /* More rounded explanation box */
-    box-shadow: inset 0px 3px 5px rgba(0,0,0,0.1); /* Subtle inset shadow for explanation */
-}
-
-.slider-container p,
-.checkbox-container p {
-    margin-top: 0;
-}
-
-
-/* ------------------------------------------------------- */
-/* Links Section                                         */
-/* ------------------------------------------------------- */
-
-.links {
-    margin: 40px auto; /* More space for links */
-    display: flex;
-    justify-content: flex-end; /* Keep links right-aligned */
-    gap: 20px; /* Increased link gap */
-}
-
-.links a {
-    text-decoration: none;
-    padding: 14px 25px; /* Larger link padding */
-    background-color: #1e88e5; /* Primary blue links */
-    color: white;
-    border: none;
-    border-radius: 10px; /* Rounded links */
-    cursor: pointer;
-    transition: background-color 0.2s ease-in-out, transform 0.2s ease; /* Added transform transition */
-    font-size: 1em; /* Consistent link font size */
-    box-shadow: 0 3px 5px rgba(0, 0, 0, 0.25); /* Link shadow */
-}
-
-.links a:hover {
-    background-color: #1565c0; /* Darker blue on hover */
-    transform: scale(1.05); /* More pronounced scale up on hover */
-}
-
-.links a:active {
-    transform: scale(0.98); /* Scale down on active */
-    box-shadow: 0 2px 3px rgba(0, 0, 0, 0.25); /* Adjusted shadow when active */
-}
-
-
-@media (min-width: 769px) { /* Desktop specific link positioning (remains same) */
-    .links {
-        position: sticky;
-        top: 10px;
-        width: fit-content;
-        margin: 0 auto 40px auto; /* More bottom margin */
-        right: 30px;
-    }
-}
-
-/* ------------------------------------------------------- */
-/*  End of CSS                                           */
-/* ------------------------------------------------------- */
